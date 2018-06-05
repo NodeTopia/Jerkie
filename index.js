@@ -7,10 +7,6 @@ const Metrics = require('statsd-metrics');
 
 const Logger = require('raft-logger-redis').Logger;
 
-//
-// Requiring `nconf-redis` will extend the `nconf`
-// module.
-//
 let Config = require('./lib/nconf-redis');
 const Schema = require('./lib/schema');
 const Services = require('./lib/services');
@@ -132,8 +128,7 @@ class Jerkie extends events.EventEmitter {
             job.once('failed', function (error) {
                 reject(new KueError(error.message, error.stack))
             });
-
-            if (options.ttl !== false) {
+            if (options.ttl) {
                 job.ttl(options.ttl)
             }
             if (options.priority) {
@@ -149,7 +144,7 @@ class Jerkie extends events.EventEmitter {
                 }
             }
 
-            job.removeOnComplete(options.remove);
+            job.removeOnComplete(true);
 
             job.save(function (err) {
                 if (err) {

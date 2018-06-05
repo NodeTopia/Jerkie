@@ -1,6 +1,6 @@
 {
   "name": "jerkie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Microservice Framework",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "bluebird": "^3.5.1",
+    "fastest-validator": "^0.6.7",
     "ioredis": "^3.2.2",
     "kue": "git+https://github.com/MangoRaft/kue.git",
     "mongoose": "^5.1.3",
