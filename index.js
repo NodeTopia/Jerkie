@@ -86,7 +86,7 @@ class Jerkie extends events.EventEmitter {
 
     async loadloags() {
         let logs = await this.nconf.get('logs');
-
+console.log(logs)
         if (logs) {
             this.logger = Logger.createLogger(logs);
             this.console = this.logger.create({

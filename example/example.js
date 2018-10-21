@@ -5,7 +5,7 @@ var socketio = require('socket.io');
 
 
 let service = new Jerkie({
-    redis: process.env.REDIS_URI,
+    redis: process.env.REDIS_URI||'redis://:J36Xd9lD2abnwapo3vLjWY0pp5FC8W6A@127.0.0.1:6379',
     name: 'ticketmaster',
     schema: path.resolve(__dirname, './schema'),
     services: path.resolve(__dirname, './services'),
@@ -23,8 +23,8 @@ let service = new Jerkie({
     },
     start: async function () {
         this.io = socketio(await this.config.get('io:port') || 9000);
-        this.io.use(this.use);
-        this.io.on('connection', this.connection);
+        this.io.use(this.methods.use);
+        this.io.on('connection', this.methods.connection);
     },
     stop: function () {
 

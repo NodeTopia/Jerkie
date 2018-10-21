@@ -14,6 +14,9 @@ routes.push({
         version: 1,
         concurrency: 100
     },
+    checks: {
+        id: {type: "string", length: 24}
+    },
     middleware: {
         last: async function (resolve, reject) {
             let last

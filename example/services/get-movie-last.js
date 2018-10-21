@@ -15,7 +15,6 @@ routes.push({
         concurrency: 100
     },
     service: function (resolve, reject) {
-        throw new Error('sadsad');
         let query = {};
         this.schema.Premier.findOne(query).then(resolve).catch(reject)
     }
