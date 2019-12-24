@@ -21,7 +21,7 @@ routes.push({
         last: async function (resolve, reject) {
             let last
             try {
-                last = await this.call('ticketmaster.movies.last')
+                last = await this.call.post('ticketmaster.movies.last')
             } catch (err) {
                 return reject(err)
             }

@@ -60,12 +60,33 @@ class Jerkie extends events.EventEmitter {
         }));
     }
 
+    loadkueHTTP() {
+        this.kue.on('job enqueue', function(id, type) {
+            kue.Job.get(id, function(err, job) {
+                if (err)
+                    return;
+                console.log('job %s got queued %s', id, job.type);
+            });
+        }).on('job complete', function(id, result) {
+            kue.Job.get(id, function(err, job) {
+                if (err)
+                    return;
+                console.log('job %s complete %s', id, job.type);
+            });
+        }).on('job failed', function(id, result) {
+            kue.Job.get(id, function(err, job) {
+                if (err)
+                    return;
+                console.log('job %s failed %s', id, job.type);
+            });
+        });
+        kue.app.listen(3001);
+    }
     loadkue() {
         let self = this;
         this.kue = kue.createQueue({
             redis: self.config.redis
         });
-        //kue.app.listen(3001);
     }
 
     loadpubsub() {
@@ -75,7 +96,7 @@ class Jerkie extends events.EventEmitter {
     }
 
     async loadmetrics() {
-        let statsd = await this.nconf.get('statsd');
+        let statsd = await this.nconf.get('stats:service');
         this.metrics = new Metrics(Object.assign({}, {
             port: 8125,
             host: '127.0.0.1'
@@ -85,8 +106,8 @@ class Jerkie extends events.EventEmitter {
     }
 
     async loadloags() {
-        let logs = await this.nconf.get('logs');
-console.log(logs)
+        let logs = await this.nconf.get('logs:service');
+
         if (logs) {
             this.logger = Logger.createLogger(logs);
             this.console = this.logger.create({
@@ -105,8 +126,9 @@ console.log(logs)
     async loadschema() {
         if (this.config.schema) {
             this.schema = new Schema(Object.assign({}, await this.nconf.get('mongodb'), {schemaPath: this.config.schema}));
-            this.schema.start()
+            return this.schema.start()
         }
+        return Promise.resolve()
     }
 
     async loadsservices() {
@@ -144,7 +166,7 @@ console.log(logs)
                 }
             }
 
-            job.removeOnComplete(true);
+            //job.removeOnComplete(true);
 
             job.save(function (err) {
                 if (err) {
