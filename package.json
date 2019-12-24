@@ -23,7 +23,7 @@
     "fastest-validator": "^0.6.12",
     "ioredis": "^3.2.2",
     "kue": "git+https://github.com/MangoRaft/kue.git",
-    "mongoose": "^4.13.17",
+    "mongoose": "^5.8.3",
     "nconf": "^0.10.0",
     "node-uuid": "^1.4.8",
     "noderedispubsub": "git+https://github.com/NodeTopia/NodeRedisPubsub.git",
